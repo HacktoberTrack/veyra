@@ -25,7 +25,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="mx-auto max-w-6xl px-6 pb-32 pt-10"
+      className="mx-auto max-w-6xl px-6 pb-12 pt-10"
     >
       <div className="grid gap-16 border-t border-zinc-900 pt-16 md:grid-cols-2">
         {/* LEFT */}
@@ -49,7 +49,7 @@ export default function HowItWorks() {
         </div>
 
         {/* RIGHT */}
-        <div className="relative h-[250px]">
+        <div className="relative h-[190px]">
           {steps.map((step, index) => (
             <div
               key={step.number}
