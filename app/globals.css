@@ -24,3 +24,163 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes step-one {
+  0%,
+  28% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  33%,
+  61% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+
+  66%,
+  94% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes step-two {
+  0%,
+  28% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+
+  33%,
+  61% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  66%,
+  94% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+}
+@keyframes step-one {
+  0%,
+  28% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+    z-index: 3;
+  }
+
+  33%,
+  61% {
+    transform: translateY(-115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+
+  66%,
+  94% {
+    transform: translateY(115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+    z-index: 3;
+  }
+}
+
+@keyframes step-two {
+  0%,
+  28% {
+    transform: translateY(115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+
+  33%,
+  61% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+    z-index: 3;
+  }
+
+  66%,
+  94% {
+    transform: translateY(-115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+
+  100% {
+    transform: translateY(115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+}
+
+@keyframes step-three {
+  0%,
+  28% {
+    transform: translateY(-115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+
+  33%,
+  61% {
+    transform: translateY(115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+
+  66%,
+  94% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+    z-index: 3;
+  }
+
+  100% {
+    transform: translateY(-115%) scale(0.94);
+    opacity: 0;
+    filter: blur(4px);
+    z-index: 1;
+  }
+}
+
+.animate-step-1 {
+  animation: step-one 15s ease-in-out infinite;
+}
+
+.animate-step-2 {
+  animation: step-two 15s ease-in-out infinite;
+}
+
+.animate-step-3 {
+  animation: step-three 15s ease-in-out infinite;
+}
