@@ -21,7 +21,7 @@ export default function Testimonials() {
           </p>
         </div>
 
-        {/* Placeholder */}
+      
         <div className="mx-auto mt-12 max-w-2xl">
           <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.035] p-10 text-center backdrop-blur-xl">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
