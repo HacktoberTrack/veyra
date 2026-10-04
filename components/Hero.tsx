@@ -24,20 +24,12 @@ export default function Hero() {
           summaries, key points, and useful resources.
         </p>
 
-        <div className="mt-10 flex w-full max-w-2xl flex-col gap-2 rounded-2xl border border-zinc-800 bg-zinc-950/80 p-2 shadow-2xl backdrop-blur sm:flex-row">
-          <input
-            type="text"
-            placeholder="Paste a YouTube URL..."
-            className="h-10 flex-1 bg-transparent px-4 text-sm text-white outline-none placeholder:text-zinc-600"
-          />
-
-          <Link
-            href="/dashboard"
-            className="flex h-10 items-center justify-center rounded-xl bg-zinc-400 px-6 text-sm font-medium text-black transition hover:bg-zinc-200"
-          >
-            Analyze video
-          </Link>
-        </div>
+        <Link
+          href="/dashboard"
+          className="mt-10 flex h-10 items-center justify-center rounded-xl bg-zinc-400 px-6 text-sm font-medium text-black transition hover:bg-zinc-200"
+        >
+          Get started
+        </Link>
 
         <p className="mt-4 text-xs text-zinc-600">
           Turn long videos into something you can actually explore.
