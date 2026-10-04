@@ -1,6 +1,6 @@
 export default function VideoInput() {
   return (
-    <section className="flex min-h-[70vh] items-center justify-center px-4 sm:px-6">
+    <section className="flex tems-start justify-center px-4 pt-10  sm:px-6">
       <div className="w-full max-w-3xl text-center">
         <p className="text-sm font-medium tracking-wide text-orange-400">
           ANALYZE A VIDEO
