@@ -14,17 +14,42 @@ export async function POST(request: Request) {
 
     const transcript = await fetchTranscript(url);
 
+    // Splits the  transcript into 5-minute sections (check the code again)
+    const sections: {
+      section: number;
+      startTime: number;
+      endTime: number;
+      transcript: string;
+    }[] = [];
+
+    transcript.forEach((item) => {
+      const startTime = item.offset;
+      const sectionIndex = Math.floor(startTime / 300);
+
+      if (!sections[sectionIndex]) {
+        sections[sectionIndex] = {
+          section: sectionIndex + 1,
+          startTime: sectionIndex * 300,
+          endTime: (sectionIndex + 1) * 300,
+          transcript: "",
+        };
+      }
+
+      sections[sectionIndex].transcript +=
+        (sections[sectionIndex].transcript ? " " : "") + item.text;
+    });
+
     return NextResponse.json({
       success: true,
-      transcript,
+      sections,
     });
   } catch (error) {
-    console.error("Transcript error:", error);
+    console.error("Analysis error:", error);
 
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to fetch video transcript",
+        error: "Failed to process video",
       },
       { status: 500 }
     );
