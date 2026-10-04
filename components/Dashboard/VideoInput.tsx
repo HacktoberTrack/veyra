@@ -28,7 +28,7 @@ export default function VideoInput() {
         throw new Error(data.error || "Failed to analyze video");
       }
 
-      console.log("Transcript:", data.transcript);
+      console.log("Sections:", data.sections);
     } catch (error) {
       console.error(error);
       setError("Failed to analyze video.");

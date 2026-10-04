@@ -14,30 +14,41 @@ export async function POST(request: Request) {
 
     const transcript = await fetchTranscript(url);
 
-    // Splits the  transcript into 5-minute sections (check the code again)
-    const sections: {
-      section: number;
-      startTime: number;
-      endTime: number;
-      transcript: string;
-    }[] = [];
+    // transcript spliting into 5-minute sections
+    const sectionsMap = new Map<
+      number,
+      {
+        section: number;
+        startTime: number;
+        endTime: number;
+        transcript: string;
+      }
+    >();
 
     transcript.forEach((item) => {
-      const startTime = item.offset;
+      // youtube-transcript can return timestamps in milliseconds
+      // or seconds depending on the transcript format.
+      const startTime =
+        item.duration > 100 ? item.offset / 1000 : item.offset;
+
       const sectionIndex = Math.floor(startTime / 300);
 
-      if (!sections[sectionIndex]) {
-        sections[sectionIndex] = {
+      if (!sectionsMap.has(sectionIndex)) {
+        sectionsMap.set(sectionIndex, {
           section: sectionIndex + 1,
           startTime: sectionIndex * 300,
           endTime: (sectionIndex + 1) * 300,
           transcript: "",
-        };
+        });
       }
 
-      sections[sectionIndex].transcript +=
-        (sections[sectionIndex].transcript ? " " : "") + item.text;
+      const currentSection = sectionsMap.get(sectionIndex)!;
+
+      currentSection.transcript +=
+        (currentSection.transcript ? " " : "") + item.text;
     });
+
+    const sections = Array.from(sectionsMap.values());
 
     return NextResponse.json({
       success: true,
