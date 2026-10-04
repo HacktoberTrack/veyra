@@ -6,8 +6,9 @@ export default function Hero() {
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
        
-        <div className="mb-6 rounded-full border border-zinc-800 bg-zinc-900/60 px-4 py-2 text-sm text-zinc-400 backdrop-blur">
-          AI-powered video intelligence
+        <div className="mb-6 flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/60 px-4 py-2 text-sm text-zinc-400 backdrop-blur">
+          <span className="block h-2 w-2 shrink-0 rounded-full bg-green-500 shadow-[0_0_8px_2px_rgba(34,197,94,0.6)]" />
+          <span>AI-powered video intelligence</span>
         </div>
 
      
@@ -33,7 +34,7 @@ export default function Hero() {
             className="h-12 flex-1 bg-transparent px-4 text-sm text-white outline-none placeholder:text-zinc-600"
           />
 
-          <button className="h-12 rounded-xl bg-white px-6 text-sm font-medium text-black transition hover:bg-zinc-200">
+          <button className="h-12 rounded-xl bg-zinc-300 px-6 text-sm font-medium text-black transition hover:bg-zinc-200">
             Analyze video
           </button>
         </div>

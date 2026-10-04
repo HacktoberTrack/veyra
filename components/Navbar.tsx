@@ -4,11 +4,11 @@ export default function Navbar() {
   return (
     <nav className="mx-auto mt-5 flex max-w-6xl items-center justify-between rounded-2xl border border-zinc-800 bg-[#0c0c0c] px-5 py-4">
       <Link href="/" className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-sm font-bold text-black">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500 text-sm font-bold text-white">
           V
         </div>
 
-        <span className="text-lg font-semibold tracking-tight">
+        <span className="text-lg font-semibold tracking-tight text-zinc-300">
           veyra
         </span>
       </Link>
