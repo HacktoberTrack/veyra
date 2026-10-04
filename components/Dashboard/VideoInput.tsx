@@ -26,4 +26,4 @@ export default function VideoInput() {
       </div>
     </section>
   );
-}
+} 
