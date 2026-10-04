@@ -23,12 +23,24 @@ export default function Navbar() {
         </Link>
 
         <a
-          href="https://github.com"
+          href="https://github.com/Tsaishashanth/veyra/blob/main/CONTRIBUTING.md"
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-xl border border-zinc-700 bg-zinc-800/70 px-4 py-2 text-sm text-zinc-200 transition hover:bg-zinc-700"
+          className="text-sm text-zinc-400 transition hover:text-white"
         >
-          GitHub
+          Contribute
+        </a>
+
+
+        <a
+          href="https://github.com/Tsaishashanth/veyra"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.06] px-4 py-2 text-sm font-medium text-zinc-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_25px_rgba(0,0,0,0.3)] backdrop-blur-xl transition hover:border-white/20 hover:bg-white/[0.1]"
+        >
+          <span className="relative z-10">⭐ Star on GitHub</span>
+
+          <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
         </a>
       </div>
     </nav>
