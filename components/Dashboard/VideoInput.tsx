@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { json } from "stream/consumers";
 
 export default function VideoInput() {
   const [url, setUrl] = useState("");
@@ -14,11 +15,12 @@ export default function VideoInput() {
     setError("");
 
     try {
+      // Fetch transcript and split into sections
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        }, 
+        },
         body: JSON.stringify({ url }),
       });
 
@@ -29,8 +31,28 @@ export default function VideoInput() {
       }
 
       console.log("Sections:", data.sections);
+
+      //Send sections to Gemma
+      const aiResponse = await fetch("/api/analyze/ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sections: data.sections,
+        }),
+      });
+
+      const aiData = await aiResponse.json();
+
+      if (!aiResponse.ok) {
+        throw new Error(aiData.error || "Failed to analyze sections with AI");
+      }
+
+      //Check Gemma output and format
+      console.log("Gemma analysis:", JSON.stringify(aiData, null, 2));
     } catch (error) {
-      console.error(error);
+      console.error("Analysis error:", error);
       setError("Failed to analyze video.");
     } finally {
       setLoading(false);
@@ -38,7 +60,7 @@ export default function VideoInput() {
   };
 
   return (
-    <section className="flex tems-start justify-center px-4 pt-10 sm:px-6">
+    <section className="flex items-start justify-center px-4 pt-10 sm:px-6">
       <div className="w-full max-w-3xl text-center">
         <p className="text-sm font-medium tracking-wide text-orange-400">
           ANALYZE A VIDEO
@@ -61,7 +83,7 @@ export default function VideoInput() {
           <button
             onClick={handleAnalyze}
             disabled={loading}
-            className="h-10 rounded-xl bg-zinc-300 px-6 text-sm font-medium text-black transition hover:bg-zinc-200"
+            className="h-10 rounded-xl bg-zinc-300 px-6 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Analyzing..." : "Analyze video"}
           </button>
