@@ -1,9 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { json } from "stream/consumers";
 
-export default function VideoInput() {
+type Section = {
+  section: number;
+  startTime: number;
+  endTime: number;
+  analysis: {
+    topic: string;
+    summary: string;
+    keyPoints: string[];
+    concepts: string[];
+    resources: string[];
+  };
+};
+
+type VideoInputProps = {
+  onResults: (sections: Section[]) => void;
+};
+
+export default function VideoInput({
+  onResults,
+}: VideoInputProps) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,7 +33,7 @@ export default function VideoInput() {
     setError("");
 
     try {
-      // Fetch transcript and split into sections
+      // Fetch transcript and split into 5-minute sections
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: {
@@ -27,12 +45,14 @@ export default function VideoInput() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to analyze video");
+        throw new Error(
+          data.error || "Failed to analyze video"
+        );
       }
 
       console.log("Sections:", data.sections);
 
-      //Send sections to Gemma
+      //Send sections to Gemma as input
       const aiResponse = await fetch("/api/analyze/ai", {
         method: "POST",
         headers: {
@@ -46,11 +66,19 @@ export default function VideoInput() {
       const aiData = await aiResponse.json();
 
       if (!aiResponse.ok) {
-        throw new Error(aiData.error || "Failed to analyze sections with AI");
+        throw new Error(
+          aiData.error ||
+            "Failed to analyze sections with AI"
+        );
       }
 
-      //Check Gemma output and format
-      console.log("Gemma analysis:", JSON.stringify(aiData, null, 2));
+      console.log(
+        "Gemma analysis:",
+        JSON.stringify(aiData, null, 2)
+      );
+
+      //Send Gemma results to Dashboard
+      onResults(aiData.sections);
     } catch (error) {
       console.error("Analysis error:", error);
       setError("Failed to analyze video.");
@@ -67,8 +95,9 @@ export default function VideoInput() {
         </p>
 
         <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-zinc-500 sm:text-base">
-          Paste a YouTube video and let veyra break it down into focused
-          sections, summaries, key points, and useful resources.
+          Paste a YouTube video and let veyra break it down
+          into focused sections, summaries, key points, and
+          useful resources.
         </p>
 
         <div className="mx-auto mt-8 flex w-full flex-col gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-2 backdrop-blur-xl sm:flex-row">
