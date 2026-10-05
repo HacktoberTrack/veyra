@@ -39,9 +39,7 @@ export default function VideoResults({
         </h1>
 
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-zinc-500">
-          veyra breaks the video into focused sections so you
-          can understand the important ideas without watching
-          every minute.
+          Key ideas, concepts, and resources from the video
         </p>
       </div>
 
@@ -56,7 +54,7 @@ export default function VideoResults({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wider text-orange-400">
-                  Section {section.section}
+                  PART {section.section}
                 </p>
 
                 <h2 className="mt-2 text-2xl font-semibold text-white">

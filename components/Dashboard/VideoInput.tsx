@@ -211,7 +211,7 @@ export default function VideoInput({
         </p>
 
         <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-zinc-500 sm:text-base">
-          Paste a YouTube video and let veyra break it down
+          Paste a YouTube video link and let veyra break it down
           into focused sections, summaries, key points, and
           useful resources.
         </p>

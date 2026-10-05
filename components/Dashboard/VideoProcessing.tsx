@@ -61,7 +61,7 @@ export default function VideoProcessing({
 
           <div className="flex items-end justify-between">
             <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Understanding your video
+              Understanding the video
             </h2>
 
             <span className="text-sm font-medium text-zinc-400">
