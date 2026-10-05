@@ -58,10 +58,8 @@ export default function VideoInput({
     onProgress(10, 0, [...timings]);
 
     try {
-      // --------------------------------
       // STEP 1
       // Fetch transcript
-      // --------------------------------
 
       startTimes[0] = Date.now();
 
@@ -89,10 +87,10 @@ export default function VideoInput({
         running: false,
       };
 
-      // --------------------------------
+  
       // STEP 2
       // Sections created
-      // --------------------------------
+
 
       startTimes[1] = Date.now();
 
@@ -116,10 +114,10 @@ export default function VideoInput({
 
       console.log("Sections:", data.sections);
 
-      // --------------------------------
+
       // STEP 3
       // Gemma analysis
-      // --------------------------------
+
 
       startTimes[2] = Date.now();
 
@@ -162,10 +160,8 @@ export default function VideoInput({
         JSON.stringify(aiData, null, 2)
       );
 
-      // --------------------------------
       // STEP 4
       // Prepare references / results
-      // --------------------------------
 
       startTimes[3] = Date.now();
 
@@ -189,9 +185,7 @@ export default function VideoInput({
 
       onProgress(95, 4, [...timings]);
 
-      // --------------------------------
-      // RESULTS READY
-      // --------------------------------
+      // RESULTS 
 
       onResults(aiData.sections);
     } catch (error) {
@@ -214,6 +208,10 @@ export default function VideoInput({
           Paste a YouTube video link and let veyra break it down
           into focused sections, summaries, key points, and
           useful resources.
+        </p>
+
+        <p className="mx-auto mt-4 inline-flex items-center rounded-full border border-orange-400/10 bg-orange-400/[0.06] px-3 py-1.5 text-xs text-orange-300/80">
+          ✦ Best results with educational or knowledge-focused videos
         </p>
 
         <div className="mx-auto mt-8 flex w-full flex-col gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-2 backdrop-blur-xl sm:flex-row">
