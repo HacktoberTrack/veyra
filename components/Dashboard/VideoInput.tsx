@@ -228,7 +228,7 @@ export default function VideoInput({
           <button
             onClick={handleAnalyze}
             disabled={loading}
-            className="h-10 rounded-xl bg-zinc-300 px-6 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-10 rounded-xl bg-zinc-300 px-6 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50 "
           >
             {loading ? "Analyzing..." : "Analyze video"}
           </button>

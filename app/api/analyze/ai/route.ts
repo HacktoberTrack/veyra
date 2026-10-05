@@ -5,9 +5,25 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
 
+type Section = {
+  section: number;
+  startTime: number;
+  endTime: number;
+  transcript: string;
+};
+
+type Analysis = {
+  topic: string;
+  summary: string;
+  keyPoints: string[];
+  concepts: string[];
+  resources: string[];
+};
+
 export async function POST(request: Request) {
   try {
-    const { sections } = await request.json();
+    const { sections }: { sections: Section[] } =
+      await request.json();
 
     if (!sections || !Array.isArray(sections)) {
       return NextResponse.json(
@@ -16,9 +32,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const analyzedSections = [];
+    const analyzedSections: {
+      section: number;
+      startTime: number;
+      endTime: number;
+      analysis: Analysis;
+    }[] = [];
 
-    for (const section of sections) {
+    for (const item of sections) {
       const prompt = `
 You are analyzing one section of an educational YouTube video.
 
@@ -34,13 +55,20 @@ Use exactly this format:
   "resources": []
 }
 
-Do NOT use markdown.
-Do NOT wrap the JSON in \`\`\`json.
-Return only the JSON object.
+Rules:
+
+- "topic" should be a short title for the section.
+- "summary" should briefly explain what the section is about.
+- "keyPoints" should contain the most important points.
+- "concepts" should contain the important concepts, technologies, ideas, or terms mentioned.
+- "resources" should contain useful resources related to the concepts if you can identify them.
+- Do NOT use markdown.
+- Do NOT wrap the JSON in \`\`\`json.
+- Return only the JSON object.
 
 Transcript:
 
-${section.transcript}
+${item.transcript}
 `;
 
       const response = await ai.models.generateContent({
@@ -50,7 +78,7 @@ ${section.transcript}
 
       const rawAnalysis = response.text?.trim() || "";
 
-      let analysis;
+      let analysis: Analysis;
 
       try {
         analysis = JSON.parse(rawAnalysis);
@@ -65,9 +93,9 @@ ${section.transcript}
       }
 
       analyzedSections.push({
-        section: section.section,
-        startTime: section.startTime,
-        endTime: section.endTime,
+        section: item.section,
+        startTime: item.startTime,
+        endTime: item.endTime,
         analysis,
       });
     }
