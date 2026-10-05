@@ -15,12 +15,25 @@ type Section = {
   };
 };
 
+type StepTiming = {
+  duration: number | null;
+  running: boolean;
+};
+
 type VideoInputProps = {
   onResults: (sections: Section[]) => void;
+  onProcessing: (processing: boolean) => void;
+  onProgress: (
+    progress: number,
+    step: number,
+    timings: StepTiming[]
+  ) => void;
 };
 
 export default function VideoInput({
   onResults,
+  onProcessing,
+  onProgress,
 }: VideoInputProps) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,9 +44,27 @@ export default function VideoInput({
 
     setLoading(true);
     setError("");
+    onProcessing(true);
+
+    const timings: StepTiming[] = [
+      { duration: null, running: true },
+      { duration: null, running: false },
+      { duration: null, running: false },
+      { duration: null, running: false },
+    ];
+
+    const startTimes = [Date.now(), 0, 0, 0];
+
+    onProgress(10, 0, [...timings]);
 
     try {
-      // Fetch transcript and split into 5-minute sections
+      // --------------------------------
+      // STEP 1
+      // Fetch transcript
+      // --------------------------------
+
+      startTimes[0] = Date.now();
+
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: {
@@ -50,9 +81,55 @@ export default function VideoInput({
         );
       }
 
+      timings[0] = {
+        duration: Math.max(
+          1,
+          Math.round((Date.now() - startTimes[0]) / 1000)
+        ),
+        running: false,
+      };
+
+      // --------------------------------
+      // STEP 2
+      // Sections created
+      // --------------------------------
+
+      startTimes[1] = Date.now();
+
+      timings[1] = {
+        duration: 1,
+        running: true,
+      };
+
+      onProgress(40, 1, [...timings]);
+
+      // The section splitting happens inside /api/analyze,
+      // so by the time the response arrives it is complete.
+
+      timings[1] = {
+        duration: Math.max(
+          1,
+          Math.round((Date.now() - startTimes[1]) / 1000)
+        ),
+        running: false,
+      };
+
       console.log("Sections:", data.sections);
 
-      //Send sections to Gemma as input
+      // --------------------------------
+      // STEP 3
+      // Gemma analysis
+      // --------------------------------
+
+      startTimes[2] = Date.now();
+
+      timings[2] = {
+        duration: null,
+        running: true,
+      };
+
+      onProgress(60, 2, [...timings]);
+
       const aiResponse = await fetch("/api/analyze/ai", {
         method: "POST",
         headers: {
@@ -72,16 +149,55 @@ export default function VideoInput({
         );
       }
 
+      timings[2] = {
+        duration: Math.max(
+          1,
+          Math.round((Date.now() - startTimes[2]) / 1000)
+        ),
+        running: false,
+      };
+
       console.log(
         "Gemma analysis:",
         JSON.stringify(aiData, null, 2)
       );
 
-      //Send Gemma results to Dashboard
+      // --------------------------------
+      // STEP 4
+      // Prepare references / results
+      // --------------------------------
+
+      startTimes[3] = Date.now();
+
+      timings[3] = {
+        duration: 1,
+        running: true,
+      };
+
+      onProgress(90, 3, [...timings]);
+
+      // The resources are already part of Gemma's response,
+      // so this final stage is the result preparation step.
+
+      timings[3] = {
+        duration: Math.max(
+          1,
+          Math.round((Date.now() - startTimes[3]) / 1000)
+        ),
+        running: false,
+      };
+
+      onProgress(95, 4, [...timings]);
+
+      // --------------------------------
+      // RESULTS READY
+      // --------------------------------
+
       onResults(aiData.sections);
     } catch (error) {
       console.error("Analysis error:", error);
       setError("Failed to analyze video.");
+      onProcessing(false);
     } finally {
       setLoading(false);
     }

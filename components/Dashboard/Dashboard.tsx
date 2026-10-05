@@ -20,16 +20,67 @@ type Section = {
   };
 };
 
+type StepTiming = {
+  duration: number | null;
+  running: boolean;
+};
+
 export default function Dashboard() {
   const [sections, setSections] = useState<Section[]>([]);
+  const [processing, setProcessing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const [stepTimings, setStepTimings] = useState<StepTiming[]>(
+    [
+      { duration: null, running: false },
+      { duration: null, running: false },
+      { duration: null, running: false },
+      { duration: null, running: false },
+    ]
+  );
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
       <DashboardNav />
 
-      <VideoInput onResults={setSections} />
+      <VideoInput
+        onResults={(results) => {
+          setProgress(100);
+          setCurrentStep(4);
+          setSections(results);
+          setProcessing(false);
+        }}
+        onProcessing={(value) => {
+          setProcessing(value);
 
-      <VideoProcessing />
+          if (value) {
+            setProgress(0);
+            setCurrentStep(0);
+            setSections([]);
+
+            setStepTimings([
+              { duration: null, running: false },
+              { duration: null, running: false },
+              { duration: null, running: false },
+              { duration: null, running: false },
+            ]);
+          }
+        }}
+        onProgress={(value, step, timings) => {
+          setProgress(value);
+          setCurrentStep(step);
+          setStepTimings(timings);
+        }}
+      />
+
+      {processing && (
+        <VideoProcessing
+          progress={progress}
+          currentStep={currentStep}
+          stepTimings={stepTimings}
+        />
+      )}
 
       {sections.length > 0 && (
         <VideoResults sections={sections} />
