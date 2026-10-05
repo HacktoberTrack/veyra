@@ -23,7 +23,8 @@ export default function Navbar() {
           href="#how-it-works"
           className="text-sm text-zinc-400 transition hover:text-white"
         >
-          How it works
+          <span className="hidden sm:inline">How it works</span>
+          <span className="sm:hidden">Working</span>
         </Link>
 
         <a
