@@ -28,7 +28,7 @@ export default function Navbar() {
         </Link>
 
         <a
-          href="https://github.com/Tsaishashanth/veyra/blob/main/CONTRIBUTING.md"
+          href="contribute"
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm text-zinc-400 transition hover:text-white"
