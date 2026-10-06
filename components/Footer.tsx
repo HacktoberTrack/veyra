@@ -29,7 +29,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://github.com/Tsaishashanth/veyra/blob/main/CONTRIBUTING.md"
+              href="contribute"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-500 transition hover:text-white"
@@ -38,7 +38,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://x.com/SaiXShashanth"
+              href=""
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-500 transition hover:text-white"
